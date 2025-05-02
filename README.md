@@ -20,3 +20,10 @@ Source Files and Design Choices for Pipelined Version of the CPE 233 RISC-V OTTE
 <p>In <b>Execute</b>, all we need to pass to <b>EM</b> is the alu_result, and some reg control, and the mem control</p>
 <p>In <b>Memory</b>, all we need to pass to <b>MW</b> is the reg mux data and control and writeback data</p>
 
+# Steps for Success
+1. Ensure each stage is fowarding data correctly
+<p>
+  &emsp;FD should be the easiest pipeline register to pass data to 
+      
+
+</p>
