@@ -21,9 +21,10 @@ Source Files and Design Choices for Pipelined Version of the CPE 233 RISC-V OTTE
 <p>In <b>Memory</b>, all we need to pass to <b>MW</b> is the reg mux data and control and writeback data</p>
 
 # Steps for Success
-1. Ensure each stage is fowarding data correctly
-<p>
-  &emsp;FD should be the easiest pipeline register to pass data to 
-      
+1. Fetch Hardware - capture those values in FD
+2. Decode Hardware - capture values in DE
+3. Execute Hardware - capture values in EM
+4. Memory Hardware - capture values in MW
+5. Writeback Hardware - pass values to decode stage
 
-</p>
+
