@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 333 Cal Poly
-// Engineer: Ryan Cramer
+// Company: 
+// Engineer: 
 // 
 // Create Date: 04/29/2025 04:52:21 PM
 // Design Name: 
@@ -33,6 +33,9 @@ module OTTER_MCU(
     logic zero_E;
     logic [31:0] alu_result_wire;
     logic [31:0] data;
+    logic [31:0] wdata;
+    logic reg_write, mem_write, mem_rd2;
+
     
     
     typedef struct packed {
@@ -45,7 +48,7 @@ module OTTER_MCU(
         logic [31:0]SrcA_Out, SrcB_Out;
         logic [31:0] R1Data, R2Data;
         logic [4:0] RdD;
-        logic [31:0] WData;
+        logic [31:0] MemData;
         logic [31:0] ALUResult;    
     } pipeline_reg_t;
     
@@ -57,7 +60,7 @@ module OTTER_MCU(
         .EN(MW.RegWrite),
         .ADR1(FD.IR[19:15]),
         .ADR2(FD.IR[24:20]),
-        .WA(MW.IR[11:7]),
+        .WA(MW.RdD),
         .WD(wdata),
         .RS1(rs1_wire),
         .RS2(rs2_wire)
@@ -67,13 +70,13 @@ module OTTER_MCU(
         .MEM_ADDR1(pc),     //Instruction Memory Port
         .MEM_ADDR2(EM.ALUResult),     //Data Memory Port
         .MEM_CLK(CLK),
-        .MEM_DIN2(R2Data),
+        .MEM_DIN2(EM.R2Data),
         .MEM_WRITE2(EM.MemWrite),
         .MEM_READ1(1'b1),
         .MEM_READ2(EM.MemRead2),
         //input [1:0] MEM_BYTE_EN1;
         //input [1:0] MEM_BYTE_EN2;
-        .IO_IN(),
+        .IO_IN(32'b0),
         .ERR(),
         //.MEM_SIZE(),
         //.MEM_SIGN(),
@@ -117,9 +120,9 @@ module OTTER_MCU(
         .FUNC7(FD.IR[30]),
         
         // OUTPUTS
-        .REG_WRITE(DE.RegWrite),
-        .MEM_WRITE(DE.MemWrite),
-        .MEM_READ2(DE.MemRead2),
+        .REG_WRITE(reg_write),
+        .MEM_WRITE(mem_write),
+        .MEM_READ2(mem_rd2),
         //.JUMP(jump_D),
         //.BRANCH(branch_D),
         .RF_SEL(DE.RF_Sel),
@@ -199,7 +202,7 @@ module OTTER_MCU(
         .SEL(MW.RF_Sel),
         .ZERO(MW.nextPC),
         .ONE(32'd0),
-        .TWO(MW.WData),
+        .TWO(MW.MemData),
         .THREE(MW.ALUResult),
         .OUT(wdata)
     ); 
@@ -236,6 +239,9 @@ always_ff@(posedge CLK) begin
         DE.R1Data <= rs1_wire;
         DE.R2Data <= rs2_wire;
         DE.RdD <= FD.IR[11:7];
+        DE.MemRead2 <= mem_rd2;
+        DE.MemWrite <= mem_write;
+        DE.RegWrite <= reg_write;
     end
 end
 
@@ -293,7 +299,7 @@ always_ff@(posedge CLK) begin
         MW.ALUResult <= EM.ALUResult;
         MW.RdD <= EM.RdD;
         MW.nextPC <= EM.nextPC;
-        MW.WData <= data;
+        MW.MemData <= data;
     end
 end 
 
