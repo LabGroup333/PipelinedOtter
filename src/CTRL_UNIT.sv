@@ -65,7 +65,7 @@ module CTRL_UNIT(
             7'b0010011: begin // I-Type
                 //set constants for all I-type instructions
                 ALU_SRCB = 2'b01;
-                RF_SEL = 2'b01;
+                RF_SEL = 2'b11;
                 REG_WRITE = 1'b1;
                 //Nested case statement
                 //dependent on the function 3 bits
@@ -94,7 +94,7 @@ module CTRL_UNIT(
                 //set constants for all R-types;
                 //ALU_FUN is just the concatenation of
                 //the 30th bit and the function 3 bits
-                RF_SEL = 2'b01;
+                RF_SEL = 2'b11;
                 ALU_FUN = {FUNC7, FUNC3};
                 REG_WRITE = 1'b1;
             end
