@@ -9,10 +9,9 @@ Source Files and Design Choices for Pipelined Version of the CPE 233 RISC-V OTTE
 5. Writeback
 
 # Pipeline Registers
-1. FD (Fetch/Decode)
-<p>          $IR, PC, NextPC$</p> 
-2. DE (Decode/Execute)
-3. EM (Execute/Memory)
-4. MW (Memory/Writeback)
+1. FD (Fetch/Decode) $IR, PC, NextPC$ 
+2. DE (Decode/Execute) $CTRL_UNIT Signals, ALU_SrcA & B, RdD)$
+3. EM (Execute/Memory) $CTRL_UNIT Signals, minus the ALU ones$
+4. MW (Memory/Writeback) $REG_FILE Signals  MUX Control$
 
 
