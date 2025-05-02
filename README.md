@@ -9,9 +9,10 @@ Source Files and Design Choices for Pipelined Version of the CPE 233 RISC-V OTTE
 5. Writeback
 
 # Pipeline Registers
-FD (Fetch/Decode)
-DE (Decode/Execute)
-EM (Execute/Memory)
-MW (Memory/Writeback)
+1. FD (Fetch/Decode)
+ $\frac{2}3$
+2. DE (Decode/Execute)
+3. EM (Execute/Memory)
+4. MW (Memory/Writeback)
 
 
