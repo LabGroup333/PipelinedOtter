@@ -57,10 +57,10 @@ module OTTER_MCU(
     
     REG_FILE OTTER_REG_FILE(
         .CLK(CLK),
-        .EN(MW.RegWrite),
+        .EN(EM.RegWrite),
         .ADR1(FD.IR[19:15]),
         .ADR2(FD.IR[24:20]),
-        .WA(MW.RdD),
+        .WA(EM.RdD),    //micah-changed from EM to MW
         .WD(wdata),
         .RS1(rs1_wire),
         .RS2(rs2_wire)
@@ -109,8 +109,8 @@ module OTTER_MCU(
         .U_TYPE(alu_srcA_D1),
         .I_TYPE(alu_srcB_D1),
         .S_TYPE(alu_srcB_D2),
-        .B_TYPE(BranchAddr),
-        .J_TYPE(JumpAddr)
+        .B_TYPE(),
+        .J_TYPE()
     ); 
     
    CTRL_UNIT OTTER_CU(
@@ -223,7 +223,7 @@ always_ff @(posedge CLK or posedge RST) begin
     end
 end
 // Update IF/ID Pipeline Reg
-always_ff@(posedge CLK) begin
+always_ff@(negedge CLK) begin
     if(RST) begin
         DE.PC <= 'b0;
         DE.nextPC <= 'b0;
@@ -285,12 +285,12 @@ end
 
 
 // Update ME/WB Pipeline Reg
-always_ff@(posedge CLK) begin
+always_ff@(negedge CLK) begin
     if(RST) begin
         MW.RegWrite <= 'b0;
         MW.RF_Sel <= 'b0;
         MW.ALUResult <= 'b0;
-        MW.RdD <= 'b0;;
+        MW.RdD <= 'b0;
         MW.nextPC <= 'b0;
     end
     else begin
