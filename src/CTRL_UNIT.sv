@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: California Polytechnic University, San Luis Obispo
-// Engineer: Diego Renato Curiel
+// Engineer: Ryan Cramer 
 // Create Date: 02/23/2023 09:39:49 AM
 // Module Name: CU_DCDR
 //////////////////////////////////////////////////////////////////////////////////
@@ -61,6 +61,7 @@ module CTRL_UNIT(
                 ALU_SRCA = 1'b1;
                 ALU_SRCB = 2'b11;
                 RF_SEL = 2'b11;
+                REG_WRITE = 1'b1;
             end 
             7'b0010011: begin // I-Type
                 //set constants for all I-type instructions
@@ -97,6 +98,7 @@ module CTRL_UNIT(
                 RF_SEL = 2'b11;
                 ALU_FUN = {FUNC7, FUNC3};
                 REG_WRITE = 1'b1;
+                ALU_SRCB = 2'b00;
             end
             /*7'b1100011: begin // B-Type
                 //nested case statement dependent on the
@@ -148,4 +150,3 @@ module CTRL_UNIT(
     end
     
 endmodule
-
